@@ -1,0 +1,3 @@
+C:/GamesCpp/TetrisGame/cmake-build-debug/CMakeFiles/TetrisGame.dir
+C:/GamesCpp/TetrisGame/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/GamesCpp/TetrisGame/cmake-build-debug/CMakeFiles/rebuild_cache.dir
