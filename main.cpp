@@ -1,12 +1,13 @@
 #include <SFML/Graphics.hpp>
-
+#include"ScreenTemplate.h"
+const float screen_width = 700;
+const float screen_height = 900;
+const float block_size = 50;
+const float block_final = 500;
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-
+    sf::RenderWindow window(sf::VideoMode(screen_width , screen_height) , "TETRIS");
+    ScreenTemplate temp;
     while (window.isOpen())
     {
         sf::Event event;
@@ -17,12 +18,9 @@ int main()
         }
 
         window.clear(sf::Color::White);
-        window.draw(shape);
+        temp.setBlockField(window , block_size , screen_height , block_final);
         window.display();
     }
-
-
-
 
     return 0;
 }
