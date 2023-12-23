@@ -17,8 +17,10 @@ int main()
         }
 
         window.clear(sf::Color::White);
+        window.draw(shape);
         window.display();
     }
+
 
 
 
