@@ -4,7 +4,7 @@
 
 class ScreenTemplate:protected StyleComponents{
 public:
-    void setBlockField(sf::RenderWindow& screen , float block_size , float screen_height , float block_final);
+    void static setBlockField(sf::RenderWindow& screen , float block_size , float screen_height , float block_final);
     void setPanelField(sf::RenderWindow& screen , float block_final);
 };
 
