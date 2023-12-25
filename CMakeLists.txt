@@ -8,6 +8,7 @@ add_executable(TetrisGame main.cpp
         StyleComponents.h
         DrawShapes.h
         Shapes.h
+        Testing.h
 )
 
 set(SFML_DIR "C:\\GamesCpp\\lib\\sfml\\GCC 13.1.0 MinGW (SEH) - 64-bit\\SFML\\lib\\cmake\\SFML")

@@ -22,11 +22,11 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            shape.event(event);
+            shape.ShapeEvent(event);
         }
 
         window.clear(sf::Color::White);
-        ScreenTemplate::setBlockField(window , block_size , screen_height , block_final);
+        temp.setBlockField(window , block_size , screen_height , block_final);
         shape.ShapeMove(window);
         window.display();
     }
