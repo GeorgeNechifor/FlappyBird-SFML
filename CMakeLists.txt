@@ -4,11 +4,7 @@ project(TetrisGame)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(TetrisGame main.cpp
-        ScreenTemplate.h
-        StyleComponents.h
-        DrawShapes.h
-        Shapes.h
-        Testing.h
+
 )
 
 set(SFML_DIR "C:\\GamesCpp\\lib\\sfml\\GCC 13.1.0 MinGW (SEH) - 64-bit\\SFML\\lib\\cmake\\SFML")
