@@ -1,16 +1,14 @@
 #include <SFML/Graphics.hpp>
-
+#include"GameTemplate.h"
 #include<iostream>
 
-const int screen_width = 900;
-const int screen_height = 700;
-
-int nr = 1;
+const int screen_width = 1024;
+const int screen_height = 800;
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(screen_width , screen_height) , "Flappy Bird");
     window.setFramerateLimit(60);
-
+    GameTemplate GameT;
 
     while (window.isOpen())
     {
@@ -22,6 +20,8 @@ int main()
         }
 
         window.clear(sf::Color::White);
+        GameT.setBackgroundImage(window);
+        GameT.setDropImage(window);
 
         window.display();
     }
