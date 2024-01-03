@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(TetrisGame main.cpp
         GameTemplate.h
+        Bird.h
+        Bird.h
+        Pipes.h
 
 )
 

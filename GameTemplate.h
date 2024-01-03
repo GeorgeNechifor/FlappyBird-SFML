@@ -21,6 +21,7 @@ private:
     void setImagePosition();
     void generateRandomPos();
     const int DropsNumber = 10;
+    bool startDrop = false;
     int MatrixPosition[101][101]{};
 };
 
@@ -32,8 +33,8 @@ void GameTemplate::getBackgroundImage() {
     float Image1X = BackgroundImageSprite.getPosition().x;
     float Image2X = BackgroundImageSprite1.getPosition().x;
 
-    BackgroundImageSprite2.setPosition(-2048 , 0);
-    BackgroundImageSprite1.setPosition( -1024 , 0);
+    BackgroundImageSprite2.setPosition(2048 , 0);
+    BackgroundImageSprite1.setPosition( 1024 , 0);
     setImagePosition();
 }
 
@@ -46,20 +47,20 @@ void GameTemplate::setBackgroundImage(sf::RenderWindow& window) {
 
 void GameTemplate::setImagePosition() {
 
-    if(BackgroundImageSprite.getPosition().x > 1023){
-        BackgroundImageSprite.setPosition(-2042, 0);
+    if(BackgroundImageSprite.getPosition().x < -1022){
+        BackgroundImageSprite.setPosition(2043, 0);
     }
-    else BackgroundImageSprite.move(3 , 0);
+    else BackgroundImageSprite.move(-3 , 0);
 
-    if(BackgroundImageSprite1.getPosition().x > 1023){
-        BackgroundImageSprite1.setPosition(-2042 , 0);
+    if(BackgroundImageSprite1.getPosition().x < -1022){
+        BackgroundImageSprite1.setPosition(2043 , 0);
     }
-    else BackgroundImageSprite1.move(3 , 0);
+    else BackgroundImageSprite1.move(-3 , 0);
 
-    if(BackgroundImageSprite2.getPosition().x > 1023){
-        BackgroundImageSprite2.setPosition(-2042 , 0);
+    if(BackgroundImageSprite2.getPosition().x < -1022){
+        BackgroundImageSprite2.setPosition(2043 , 0);
     }
-    else BackgroundImageSprite2.move(3 , 0);
+    else BackgroundImageSprite2.move(-3 , 0);
 
 }
 
@@ -71,8 +72,13 @@ void GameTemplate::getDropImage() {
 
 void GameTemplate::setDropImage(sf::RenderWindow &window) {
     for(int i = 0; i < DropsNumber;++i){
+        if(i == 0){
+            DropImageSprite.setPosition(float(rand() % 1024) , 0);
+            if(!startDrop) startDrop = true;
+        }
+
         window.draw(DropImageSprite);
-        DropImageSprite.move(MatrixPosition[i][0] , MatrixPosition[i][1]);
+
     }
 }
 
