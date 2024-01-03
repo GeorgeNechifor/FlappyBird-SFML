@@ -12,7 +12,7 @@ add_executable(TetrisGame main.cpp
 )
 
 set(SFML_DIR "C:\\GamesCpp\\lib\\sfml\\GCC 13.1.0 MinGW (SEH) - 64-bit\\SFML\\lib\\cmake\\SFML")
-target_link_libraries(TetrisGame sfml-graphics)
+target_link_libraries(TetrisGame sfml-graphics sfml-audio)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 find_package(SFML 2.6 REQUIRED graphics network audio window system)
