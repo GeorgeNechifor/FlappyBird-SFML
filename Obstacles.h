@@ -1,11 +1,12 @@
-
+#pragma once
 #include<SFML/Graphics.hpp>
+#include"Bird.h"
 class Obstacles {
 public:
     Obstacles(){
         getAsteroidImage();
     }
-    void setAsteroidImage(sf::RenderWindow& window);
+    void setAsteroidImage(sf::RenderWindow& window , bool& status);
 private:
     sf::Texture Asteroid1;
     sf::Texture Asteroid2;
@@ -21,12 +22,12 @@ private:
     sf::Sprite AsteroidSprite6;
 
     void getAsteroidImage();
-    void setAsteroidMove(sf::Sprite& asteroid);
     void setAsteroidTemplate(sf::Sprite& asteroid , sf::Texture& texture);
     float AsteroidSpeedValues[4] = {2 , 6 , 9 , 11};
     int AsteroidSpeed = rand() % 3;
     float AsteroidAngleY[3] = {0.3 , 0.4 , 0.5};
     int AsteroidRandomY = rand() % 2;
+    void setAsteroidMove(sf::Sprite& asteroid);
 };
 
 void Obstacles::getAsteroidImage() {
@@ -53,21 +54,31 @@ void Obstacles::getAsteroidImage() {
 
 }
 
-void Obstacles::setAsteroidImage(sf::RenderWindow &window) {
+void Obstacles::setAsteroidImage(sf::RenderWindow &window , bool& status) {
     window.draw(AsteroidSprite1);
     window.draw(AsteroidSprite2);
     window.draw(AsteroidSprite3);
     window.draw(AsteroidSprite4);
     window.draw(AsteroidSprite5);
     window.draw(AsteroidSprite6);
-    setAsteroidMove(AsteroidSprite1);
-    setAsteroidMove(AsteroidSprite2);
-    setAsteroidMove(AsteroidSprite3);
-    setAsteroidMove(AsteroidSprite4);
-    setAsteroidMove(AsteroidSprite5);
-    setAsteroidMove(AsteroidSprite4);
-    setAsteroidMove(AsteroidSprite6);
-    setAsteroidMove(AsteroidSprite3);
+    if(status){
+        setAsteroidMove(AsteroidSprite1);
+        setAsteroidMove(AsteroidSprite2);
+        setAsteroidMove(AsteroidSprite3);
+        setAsteroidMove(AsteroidSprite4);
+        setAsteroidMove(AsteroidSprite5);
+        setAsteroidMove(AsteroidSprite4);
+        setAsteroidMove(AsteroidSprite6);
+        setAsteroidMove(AsteroidSprite3);
+    }
+    else{
+        setAsteroidTemplate(AsteroidSprite1 , Asteroid1);
+        setAsteroidTemplate(AsteroidSprite2 , Asteroid2);
+        setAsteroidTemplate(AsteroidSprite3 , Asteroid3);
+        setAsteroidTemplate(AsteroidSprite4 , Asteroid4);
+        setAsteroidTemplate(AsteroidSprite5 , Asteroid5);
+        setAsteroidTemplate(AsteroidSprite6 , Asteroid6);
+    }
 }
 
 void Obstacles::setAsteroidMove(sf::Sprite& asteroid) {

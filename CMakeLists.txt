@@ -9,6 +9,7 @@ add_executable(TetrisGame main.cpp
         Bird.h
         Obstacles.h
         Score.h
+        RestartGame.h
 
 )
 

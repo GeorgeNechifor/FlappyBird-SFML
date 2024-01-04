@@ -4,6 +4,7 @@
 #include"Bird.h"
 #include"Obstacles.h"
 #include"Score.h"
+
 const int screen_width = 1024;
 const int screen_height = 800;
 int main()
@@ -22,16 +23,17 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
             if(bird.Status) bird.setBirdTransition(event);
+            if(!bird.Status) bird.setRestartEvent(event);
 
         }
 
         window.clear(sf::Color::White);
-        GameT.setBackgroundImage(window);
+        GameT.setBackgroundImage(window , bird.Status);
         bird.setThunderImage(window);
         bird.setBirdImage(window);
+        obstacle.setAsteroidImage(window , bird.Status);
         bird.setRestartButton(window);
-        obstacle.setAsteroidImage(window);
-        score.setScoreText(window);
+        score.setScoreText(window , bird.Status);
         window.display();
     }
 
