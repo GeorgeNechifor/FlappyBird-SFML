@@ -4,11 +4,9 @@ class GameTemplate{
 public:
     GameTemplate(){
         getBackgroundImage();
-        getDropImage();
-        generateRandomPos();
+
     }
     void setBackgroundImage(sf::RenderWindow& window);
-    void setDropImage(sf::RenderWindow& window);
 private:
     sf::Sprite BackgroundImageSprite;
     sf::Sprite BackgroundImageSprite1;
@@ -17,16 +15,11 @@ private:
     sf::Texture DropImage;
     sf::Texture BackgroundImage;
     void getBackgroundImage();
-    void getDropImage();
     void setImagePosition();
-    void generateRandomPos();
-    const int DropsNumber = 10;
-    bool startDrop = false;
-    int MatrixPosition[101][101]{};
 };
 
 void GameTemplate::getBackgroundImage() {
-    BackgroundImage.loadFromFile("C:\\GamesCpp\\TetrisGame\\images\\bkImage.png");
+    BackgroundImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\bkImage.png)");
     BackgroundImageSprite.setTexture(BackgroundImage);
     BackgroundImageSprite1.setTexture(BackgroundImage);
     BackgroundImageSprite2.setTexture(BackgroundImage);
@@ -62,39 +55,4 @@ void GameTemplate::setImagePosition() {
     }
     else BackgroundImageSprite2.move(-3 , 0);
 
-}
-
-void GameTemplate::getDropImage() {
-    DropImage.loadFromFile("C:\\GamesCpp\\TetrisGame\\images\\drop.png");
-    DropImageSprite.setTexture(DropImage);
-
-}
-
-void GameTemplate::setDropImage(sf::RenderWindow &window) {
-    for(int i = 0; i < DropsNumber;++i){
-        if(i == 0){
-            DropImageSprite.setPosition(float(rand() % 1024) , 0);
-            if(!startDrop) startDrop = true;
-        }
-
-        window.draw(DropImageSprite);
-
-    }
-}
-
-void GameTemplate::generateRandomPos() {
-
-    for(int i = 0; i < DropsNumber;++i){
-        for(int j = 0; j < 2;++j){
-            if(j == 0){
-                int RandomXStart = rand() % 2;
-                MatrixPosition[i][j] = RandomXStart;
-            }
-            else if(j == 1){
-                int RandomSpeed = rand() % 2;
-                RandomSpeed++;
-                MatrixPosition[i][j] = RandomSpeed;
-            }
-        }
-    }
 }

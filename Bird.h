@@ -22,11 +22,11 @@ public:
     void setThunderImage(sf::RenderWindow& window);
     void setRestartButton(sf::RenderWindow& window);
     bool Status = true;
+    sf::Sprite BirdSprite;
 private:
     sf::Texture BirdImage;
     sf::Texture ThunderImage;
     sf::Sprite ThunderSprite;
-    sf::Sprite BirdSprite;
     sf::SoundBuffer JumpBuffer;
     sf::SoundBuffer ThunderBuffer;
     sf::Sound ThunderSound;
@@ -34,6 +34,7 @@ private:
     sf::Music DarkMusic;
     sf::Text RestartText;
     sf::RectangleShape RestartButton;
+    sf::Font font;
     void getThunderImage();
     void getBirdImage();
     void setBirdNpcMode();
@@ -42,7 +43,7 @@ private:
     void getSound();
     void getRestartButton();
     float BirdY = 0;
-    float GravityPower = 5 , RotationAngle = 15;
+    float GravityPower = 4.3  , RotationAngle = 15;
     bool TransitionDown = true , TransitionUp = false;
     bool KeyPressed = true , KeyReleased = false;
     const float BirdPosX = 450,  BirdPosY = 320;
@@ -52,7 +53,7 @@ protected:
 void Bird::getBirdImage() {
     BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdDown.png)");
     BirdSprite.setTexture(BirdImage);
-    BirdSprite.setScale(0.3 , 0.3);
+    BirdSprite.setScale(0.2 , 0.2);
     BirdSprite.setPosition(BirdPosX , BirdPosY);
     BirdSprite.rotate(2);
 }
@@ -68,7 +69,6 @@ void Bird::setBirdImage(sf::RenderWindow &window) {
             setBirdJump();
         }
     }
-
 }
 
 void Bird::setBirdTransition(sf::Event &event) {
@@ -81,7 +81,6 @@ void Bird::setBirdTransition(sf::Event &event) {
                 KeyReleased = true;
                 GravityPower -= float(800.f / 1500);
                 JumpSound.play();
-
             }
         }
     }
@@ -109,11 +108,11 @@ void Bird::setBirdNpcMode() {
        BirdSprite.setPosition(BirdPosX , CurrentBirdY + BirdY);
        BirdY--;
    }
-   if(BirdY == 4){
+   if(BirdY == 5){
        TransitionUp = true;
        TransitionDown = false;
    }
-   else if(BirdY == -7){
+   else if(BirdY == -4){
        TransitionDown = true;
        TransitionUp = false;
    }
@@ -121,7 +120,7 @@ void Bird::setBirdNpcMode() {
 
 void Bird::setBirdGravity() {
     float CurrentBirdY = BirdSprite.getPosition().y;
-    if(CurrentBirdY < 660){
+    if(CurrentBirdY < 710){
         BirdSprite.move(0 , GravityPower);
     }
     else{
@@ -161,15 +160,17 @@ void Bird::setThunderImage(sf::RenderWindow &window) {
     }
     else{
         ThunderSprite.move(-3 , 0);
-
     }
 }
 
 void Bird::getRestartButton() {
     RestartButton.setSize(sf::Vector2f(150.f , 60.f));
     RestartButton.setPosition(450 , 350);
-    RestartText.setCharacterSize(15);
-    RestartText.setPosition(452 , 352);
+    font.loadFromFile(R"(C:\GamesCpp\TetrisGame\Fonts\Font.ttf)");
+    RestartText.setFont(font);
+    RestartText.setCharacterSize(40);
+    RestartText.setPosition(456 , 354);
+    RestartText.setString("Restart");
 }
 
 void Bird::setRestartButton(sf::RenderWindow &window) {
