@@ -18,8 +18,8 @@ public:
         ThunderSound.setBuffer(ThunderBuffer);
         ThunderSound.setVolume(20);
     }
-    void setBirdImage(sf::RenderWindow& window);
-    void setBirdTransition(sf::Event& event);
+    void setBirdImage(sf::RenderWindow& window , bool& start);
+    void setBirdTransition(sf::Event& event , bool start);
     void setThunderImage(sf::RenderWindow& window);
     void setRestartButton(sf::RenderWindow& window);
     void setRestartEvent(sf::Event& event){
@@ -36,6 +36,8 @@ public:
     }
     bool Status = true;
     sf::Sprite BirdSprite;
+    void setBirdNpcMode(sf::Sprite& ImageComponent , float MoveUp , float MoveDown , float& pos , float& CompX , bool& TDown , bool& TUp , float& BirdPos);
+
 private:
     sf::Texture BirdImage;
     sf::Texture ThunderImage;
@@ -50,7 +52,6 @@ private:
     sf::RectangleShape RestartButton;
     void getThunderImage();
     void getBirdImage();
-    void setBirdNpcMode();
     void setBirdGravity();
     void setBirdJump();
     void getSound();
@@ -59,7 +60,7 @@ private:
     float GravityPower = 4.3  , RotationAngle = 15;
     bool TransitionDown = true , TransitionUp = false;
     bool KeyPressed = true , KeyReleased = false;
-    const float BirdPosX = 450,  BirdPosY = 320;
+    float BirdPosX = 470,  BirdPosY = 320;
 protected:
 };
 
@@ -71,24 +72,30 @@ void Bird::getBirdImage() {
     BirdSprite.rotate(2);
 }
 
-void Bird::setBirdImage(sf::RenderWindow &window) {
+void Bird::setBirdImage(sf::RenderWindow &window , bool& start) {
     window.draw(BirdSprite);
+    float BirdPy = BirdSprite.getPosition().y;
     if(Status){
         if(KeyPressed) {
-            setBirdGravity();
-            setBirdNpcMode();
+            if(!start) {
+                setBirdGravity();
+                setBirdNpcMode(BirdSprite , 5 , 4 , BirdY , BirdPosX , TransitionDown , TransitionUp , BirdPy);
+
+            }
+            else{
+                setBirdNpcMode(BirdSprite , 8 , 8 , BirdY , BirdPosX , TransitionDown , TransitionUp , BirdPy);
+            }
         }
         else if(KeyReleased){
-            setBirdJump();
+            if(!start)setBirdJump();
         }
     }
-
 }
 
-void Bird::setBirdTransition(sf::Event &event) {
+void Bird::setBirdTransition(sf::Event &event , bool start) {
     if(event.type == sf::Event::KeyPressed){
         if(event.text.unicode == 57){
-            if(KeyPressed){
+            if(KeyPressed && !start){
                 BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdUp.png)");
                 BirdSprite.rotate(-RotationAngle);
                 KeyPressed = false;
@@ -100,35 +107,34 @@ void Bird::setBirdTransition(sf::Event &event) {
     }
     if(event.type == sf::Event::KeyReleased){
         if(event.text.unicode == 57){
-           if(KeyReleased){
+           if(KeyReleased && !start){
                BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdDown.png)");
                BirdSprite.rotate(RotationAngle);
                KeyPressed = true;
                KeyReleased = false;
+               GravityPower += float(800.f / 1500);
            }
-            GravityPower += float(800.f / 1500);
-
         }
     }
 }
 
-void Bird::setBirdNpcMode() {
+void Bird::setBirdNpcMode(sf::Sprite& ImageComponent , float MoveUp , float MoveDown , float& pos , float& CompX , bool& TDown , bool& TUp , float& BirdPos) {
     float CurrentBirdY = BirdSprite.getPosition().y;
-   if(TransitionDown){
-      BirdSprite.setPosition(BirdPosX , CurrentBirdY + BirdY);
-      BirdY++;
+   if(TDown){
+      ImageComponent.setPosition(CompX , CurrentBirdY + pos);
+      pos++;
    }
-   else if(TransitionUp){
-       BirdSprite.setPosition(BirdPosX , CurrentBirdY + BirdY);
-       BirdY--;
+   else if(TUp){
+       ImageComponent.setPosition(CompX , CurrentBirdY + pos);
+       pos--;
    }
-   if(BirdY == 5){
-       TransitionUp = true;
-       TransitionDown = false;
+   if(pos == MoveUp){
+       TUp = true;
+       TDown = false;
    }
-   else if(BirdY == -4){
-       TransitionDown = true;
-       TransitionUp = false;
+   else if(pos == -MoveDown){
+       TDown = true;
+       TUp = false;
    }
 }
 
@@ -145,12 +151,14 @@ void Bird::setBirdGravity() {
 
 void Bird::setBirdJump() {
     float CurrentBirdY = BirdSprite.getPosition().y;
-    if(CurrentBirdY > 0){
+    if(CurrentBirdY > -5){
         BirdSprite.move(0 , -GravityPower - 3);
     }
     else{
         Status = false;
         ThunderSound.play();
+        KeyReleased = false; KeyPressed = true;
+        BirdSprite.rotate(RotationAngle);
     }
 }
 
@@ -174,7 +182,6 @@ void Bird::setThunderImage(sf::RenderWindow &window) {
     }
     else{
         if(Status) ThunderSprite.move(-3 , 0);
-
     }
 }
 

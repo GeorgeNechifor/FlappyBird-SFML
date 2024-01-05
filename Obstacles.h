@@ -6,7 +6,21 @@ public:
     Obstacles(){
         getAsteroidImage();
     }
-    void setAsteroidImage(sf::RenderWindow& window , bool& status);
+    void setAsteroidImage(sf::RenderWindow& window , bool& status , bool start);
+    void setAsteroidsOnStart(sf::Event& event , bool& start){
+        if(event.type == sf::Event::KeyPressed){
+            if(event.text.unicode == 58){
+                if(start){
+                    setAsteroidTemplate(AsteroidSprite1 , Asteroid1);
+                    setAsteroidTemplate(AsteroidSprite2 , Asteroid2);
+                    setAsteroidTemplate(AsteroidSprite3 , Asteroid3);
+                    setAsteroidTemplate(AsteroidSprite4 , Asteroid4);
+                    setAsteroidTemplate(AsteroidSprite5 , Asteroid5);
+                    setAsteroidTemplate(AsteroidSprite6 , Asteroid6);
+                }
+            }
+        }
+    }
 private:
     sf::Texture Asteroid1;
     sf::Texture Asteroid2;
@@ -54,7 +68,7 @@ void Obstacles::getAsteroidImage() {
 
 }
 
-void Obstacles::setAsteroidImage(sf::RenderWindow &window , bool& status) {
+void Obstacles::setAsteroidImage(sf::RenderWindow &window , bool& status , bool start) {
     window.draw(AsteroidSprite1);
     window.draw(AsteroidSprite2);
     window.draw(AsteroidSprite3);

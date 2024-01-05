@@ -9,7 +9,7 @@ public:
     Score(){
         getScoreText();
     }
-    void setScoreText(sf::RenderWindow& window , bool& status);
+    void setScoreText(sf::RenderWindow& window , bool& status , bool start);
     sf::Clock clock;
 private:
     sf::Text ScoreText;
@@ -26,9 +26,9 @@ void Score::getScoreText() {
     ScoreText.setPosition(sf::Vector2f(20.f , 15.f));
 }
 
-void Score::setScoreText(sf::RenderWindow &window , bool& status) {
+void Score::setScoreText(sf::RenderWindow &window , bool& status , bool start) {
     window.draw(ScoreText);
-    if(status){
+    if(status && !start){
         sf::Time elapsed = clock.getElapsedTime();
         ScoreText.setString(std::to_string(elapsed.asSeconds()));
     }
