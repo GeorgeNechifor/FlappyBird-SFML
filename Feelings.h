@@ -2,10 +2,10 @@
 #include<SFML/Graphics.hpp>
 #include<SFML/System/Clock.hpp>
 #include<iostream>
-class JumpAnimation{
+class Feelings{
 
 public:
-    JumpAnimation(){
+    Feelings(){
         CircleTexture.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\circle.png)");
     }
     void setAnimation(sf::RenderWindow& window , float BirdPosition){
@@ -44,8 +44,7 @@ private:
         sf::Time elapsed = clock.getElapsedTime();
         if(elapsed.asMilliseconds()  < 400){
             if(AnimationEx){
-                if(index < 3) index++;
-                else index = 0;
+                increaseIndex();
                 AnimationEx = false;
             }
         }
@@ -55,10 +54,9 @@ private:
             clock.restart();
         }
     }
-    void getCircle(float BirdPosition , float PosX , float dif , sf::Sprite Circle , float radius){
-        Circle.setTexture(CircleTexture);
-        Circle.setScale(radius , radius);
-        Circle.setPosition(PosX , BirdPosition -  dif);
-
+    void increaseIndex(){
+        if(index < 3) index++;
+        else index = 0;
     }
+
 };

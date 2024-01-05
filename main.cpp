@@ -5,7 +5,8 @@
 #include"Obstacles.h"
 #include"Score.h"
 #include"StartGame.h"
-#include"JumpAnimation.h"
+#include"Feelings.h"
+#include"Power.h"
 const int screen_width = 1024;
 const int screen_height = 800;
 
@@ -18,7 +19,8 @@ int main()
     Obstacles obstacle;
     Score score;
     StartGame start;
-    JumpAnimation animation;
+    Feelings animation;
+    Power love;
     while (window.isOpen())
     {
         sf::Event event;
@@ -36,6 +38,7 @@ int main()
         GameT.setBackgroundImage(window , bird.Status);
         bird.setThunderImage(window);
         obstacle.setAsteroidImage(window , bird.Status , start.Start);
+        love.setPowerImage(window , bird.Status , start.Start);
         bird.setBirdImage(window , start.Start);
         bird.setRestartButton(window);
         animation.setAnimation(window  , bird.BirdSprite.getPosition().y);
@@ -44,6 +47,7 @@ int main()
             start.setTitle(window);
             start.setStartButton(window);
         }
+
         window.display();
     }
 

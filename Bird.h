@@ -100,7 +100,6 @@ void Bird::setBirdTransition(sf::Event &event , bool start) {
                 BirdSprite.rotate(-RotationAngle);
                 KeyPressed = false;
                 KeyReleased = true;
-                GravityPower -= float(800.f / 1500);
                 JumpSound.play();
             }
         }
@@ -112,7 +111,6 @@ void Bird::setBirdTransition(sf::Event &event , bool start) {
                BirdSprite.rotate(RotationAngle);
                KeyPressed = true;
                KeyReleased = false;
-               GravityPower += float(800.f / 1500);
            }
         }
     }
