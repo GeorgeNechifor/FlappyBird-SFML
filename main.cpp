@@ -28,7 +28,7 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if(bird.Status) bird.setBirdTransition(event , start.Start);
+            if(bird.Status) bird.setBirdTransition(event , start.Start , love.PowerOn);
             if(!bird.Status) bird.setRestartEvent(event);
             obstacle.setAsteroidsOnStart(event , start.Start);
             start.startGameEvent(event , start.Start);
@@ -38,8 +38,8 @@ int main()
         GameT.setBackgroundImage(window , bird.Status);
         bird.setThunderImage(window);
         obstacle.setAsteroidImage(window , bird.Status , start.Start);
-        love.setPowerImage(window , bird.Status , start.Start);
-        bird.setBirdImage(window , start.Start);
+        love.setPowerImage(window , bird.Status , start.Start , bird.BirdSprite.getPosition().x , bird.BirdSprite.getPosition().y);
+        bird.setBirdImage(window , start.Start , love.PowerOn);
         bird.setRestartButton(window);
         animation.setAnimation(window  , bird.BirdSprite.getPosition().y);
         score.setScoreText(window , bird.Status , start.Start);

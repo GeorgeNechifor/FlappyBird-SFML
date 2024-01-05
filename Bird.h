@@ -18,8 +18,8 @@ public:
         ThunderSound.setBuffer(ThunderBuffer);
         ThunderSound.setVolume(20);
     }
-    void setBirdImage(sf::RenderWindow& window , bool& start);
-    void setBirdTransition(sf::Event& event , bool start);
+    void setBirdImage(sf::RenderWindow& window , bool& start , bool PowerOn);
+    void setBirdTransition(sf::Event& event , bool start , bool PowerOn);
     void setThunderImage(sf::RenderWindow& window);
     void setRestartButton(sf::RenderWindow& window);
     void setRestartEvent(sf::Event& event){
@@ -41,6 +41,7 @@ public:
 private:
     sf::Texture BirdImage;
     sf::Texture ThunderImage;
+    sf::Texture LoveBird;
     sf::Sprite ThunderSprite;
     sf::SoundBuffer JumpBuffer;
     sf::SoundBuffer ThunderBuffer;
@@ -57,10 +58,10 @@ private:
     void getSound();
     void getRestertButton();
     float BirdY = 0;
-    float GravityPower = 4.3  , RotationAngle = 15;
+    float GravityPower = 4.3  , RotationAngle = 18;
     bool TransitionDown = true , TransitionUp = false;
     bool KeyPressed = true , KeyReleased = false;
-    float BirdPosX = 470,  BirdPosY = 320;
+    float BirdPosX = 500,  BirdPosY = 350;
 protected:
 };
 
@@ -70,9 +71,11 @@ void Bird::getBirdImage() {
     BirdSprite.setScale(0.2 , 0.2);
     BirdSprite.setPosition(BirdPosX , BirdPosY);
     BirdSprite.rotate(2);
+    BirdSprite.setOrigin((sf::Vector2f) BirdImage.getSize() / 2.f);
+
 }
 
-void Bird::setBirdImage(sf::RenderWindow &window , bool& start) {
+void Bird::setBirdImage(sf::RenderWindow &window , bool& start , bool PowerOn) {
     window.draw(BirdSprite);
     float BirdPy = BirdSprite.getPosition().y;
     if(Status){
@@ -92,11 +95,16 @@ void Bird::setBirdImage(sf::RenderWindow &window , bool& start) {
     }
 }
 
-void Bird::setBirdTransition(sf::Event &event , bool start) {
+void Bird::setBirdTransition(sf::Event &event , bool start , bool PowerOn) {
     if(event.type == sf::Event::KeyPressed){
         if(event.text.unicode == 57){
             if(KeyPressed && !start){
-                BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdUp.png)");
+                if(!PowerOn){
+                    BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdUp.png)");
+                }
+                else{
+                    BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdUpLove.png)");
+                }
                 BirdSprite.rotate(-RotationAngle);
                 KeyPressed = false;
                 KeyReleased = true;
@@ -107,7 +115,14 @@ void Bird::setBirdTransition(sf::Event &event , bool start) {
     if(event.type == sf::Event::KeyReleased){
         if(event.text.unicode == 57){
            if(KeyReleased && !start){
-               BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdDown.png)");
+               if(!PowerOn){
+                   BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdDown.png)");
+                   BirdSprite.setScale(0.2 , 0.2);
+               }
+               else{
+                   BirdImage.loadFromFile(R"(C:\GamesCpp\TetrisGame\images\birdDownLove.png)");
+                   BirdSprite.setScale(0.22 , 0.22);
+               }
                BirdSprite.rotate(RotationAngle);
                KeyPressed = true;
                KeyReleased = false;
