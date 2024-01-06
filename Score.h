@@ -35,4 +35,5 @@ void Score::setScoreText(sf::RenderWindow &window , bool& status , bool start) {
     else{
         clock.restart();
     }
+
 }

@@ -1,12 +1,13 @@
 #pragma once
 #include<SFML/Graphics.hpp>
 #include"Bird.h"
-class Obstacles {
+#include<iostream>
+class Obstacles:public Bird{
 public:
     Obstacles(){
         getAsteroidImage();
     }
-    void setAsteroidImage(sf::RenderWindow& window , bool& status , bool start);
+    void setAsteroidImage(sf::RenderWindow& window , bool& status , bool start , float BirdX , float BirdY , bool PowerOn);
     void setAsteroidsOnStart(sf::Event& event , bool& start){
         if(event.type == sf::Event::KeyPressed){
             if(event.text.unicode == 58){
@@ -41,7 +42,7 @@ private:
     int AsteroidSpeed = rand() % 3;
     float AsteroidAngleY[3] = {0.3 , 0.4 , 0.5};
     int AsteroidRandomY = rand() % 2;
-    void setAsteroidMove(sf::Sprite& asteroid);
+    void setAsteroidMove(sf::Sprite& asteroid ,float BirdX , float BirdY , bool PowerOn , bool& status , bool start);
 };
 
 void Obstacles::getAsteroidImage() {
@@ -68,7 +69,7 @@ void Obstacles::getAsteroidImage() {
 
 }
 
-void Obstacles::setAsteroidImage(sf::RenderWindow &window , bool& status , bool start) {
+void Obstacles::setAsteroidImage(sf::RenderWindow &window , bool& status , bool start , float BirdX , float BirdY , bool PowerOn) {
     window.draw(AsteroidSprite1);
     window.draw(AsteroidSprite2);
     window.draw(AsteroidSprite3);
@@ -76,14 +77,14 @@ void Obstacles::setAsteroidImage(sf::RenderWindow &window , bool& status , bool 
     window.draw(AsteroidSprite5);
     window.draw(AsteroidSprite6);
     if(status){
-        setAsteroidMove(AsteroidSprite1);
-        setAsteroidMove(AsteroidSprite2);
-        setAsteroidMove(AsteroidSprite3);
-        setAsteroidMove(AsteroidSprite4);
-        setAsteroidMove(AsteroidSprite5);
-        setAsteroidMove(AsteroidSprite4);
-        setAsteroidMove(AsteroidSprite6);
-        setAsteroidMove(AsteroidSprite3);
+        setAsteroidMove(AsteroidSprite1 , BirdX , BirdY , PowerOn , status , start);
+        setAsteroidMove(AsteroidSprite2 , BirdX , BirdY , PowerOn , status , start);
+        setAsteroidMove(AsteroidSprite3 , BirdX , BirdY , PowerOn , status , start);
+        setAsteroidMove(AsteroidSprite4 , BirdX , BirdY , PowerOn , status , start);
+        setAsteroidMove(AsteroidSprite5 , BirdX , BirdY , PowerOn , status , start);
+        setAsteroidMove(AsteroidSprite4 , BirdX , BirdY , PowerOn , status , start);
+        setAsteroidMove(AsteroidSprite6 , BirdX , BirdY , PowerOn , status , start);
+        setAsteroidMove(AsteroidSprite3 , BirdX , BirdY , PowerOn , status , start);
     }
     else{
         setAsteroidTemplate(AsteroidSprite1 , Asteroid1);
@@ -95,12 +96,23 @@ void Obstacles::setAsteroidImage(sf::RenderWindow &window , bool& status , bool 
     }
 }
 
-void Obstacles::setAsteroidMove(sf::Sprite& asteroid) {
+void Obstacles::setAsteroidMove(sf::Sprite& asteroid , float BirdX , float BirdY , bool PowerOn , bool& status , bool start) {
     float AsteroidX = asteroid.getPosition().x;
     float AsteroidY = asteroid.getPosition().y;
     asteroid.rotate(0.8);
     if(AsteroidX > -60){
-        asteroid.move(-4, AsteroidAngleY[AsteroidRandomY] + 0.2);
+        if(std::abs(BirdY - AsteroidY) < 50 && std::abs(BirdX - AsteroidX) < 50){
+            if(!PowerOn && !start){
+                status = false;
+                KeyReleased = false;KeyPressed = true;
+            }
+            else{
+                asteroid.move(-4, AsteroidAngleY[AsteroidRandomY] + 0.2);
+            }
+        }
+        else{
+            asteroid.move(-4, AsteroidAngleY[AsteroidRandomY] + 0.2);
+        }
     }
     else {
         float RandomY = (rand() % 740) -40;

@@ -12,6 +12,7 @@ add_executable(TetrisGame main.cpp
         Feelings.h
         StartGame.h
         Power.h
+        BirdSp.h
 
 )
 

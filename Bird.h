@@ -4,7 +4,7 @@
 #include<SFML/Audio/Sound.hpp>
 #include<SFML/Audio/Music.hpp>
 #include"Score.h"
-class Bird:public Score{
+class Bird{
 public:
     Bird(){
         getBirdImage();
@@ -35,6 +35,9 @@ public:
         }
     }
     bool Status = true;
+    bool KeyPressed = true , KeyReleased = false;
+    float GravityPower = 4.3  , RotationAngle = 18;
+    sf::Sound ThunderSound;
     sf::Sprite BirdSprite;
     void setBirdNpcMode(sf::Sprite& ImageComponent , float MoveUp , float MoveDown , float& pos , float& CompX , bool& TDown , bool& TUp , float& BirdPos);
 
@@ -45,7 +48,6 @@ private:
     sf::Sprite ThunderSprite;
     sf::SoundBuffer JumpBuffer;
     sf::SoundBuffer ThunderBuffer;
-    sf::Sound ThunderSound;
     sf::Sound JumpSound;
     sf::Music DarkMusic;
     sf::Font font;
@@ -59,9 +61,7 @@ private:
     void getRestertButton();
     bool NPCMode = true;
     float BirdY = 0;
-    float GravityPower = 4.3  , RotationAngle = 18;
     bool TransitionDown = true , TransitionUp = false;
-    bool KeyPressed = true , KeyReleased = false;
     float BirdPosX = 500,  BirdPosY = 350;
 protected:
 };

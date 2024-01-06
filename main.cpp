@@ -7,6 +7,7 @@
 #include"StartGame.h"
 #include"Feelings.h"
 #include"Power.h"
+#include"BirdSp.h"
 const int screen_width = 1024;
 const int screen_height = 800;
 
@@ -21,6 +22,7 @@ int main()
     StartGame start;
     Feelings animation;
     Power love;
+    BirdSp anime;
     while (window.isOpen())
     {
         sf::Event event;
@@ -37,9 +39,10 @@ int main()
         window.clear(sf::Color::White);
         GameT.setBackgroundImage(window , bird.Status);
         bird.setThunderImage(window);
-        obstacle.setAsteroidImage(window , bird.Status , start.Start);
+        obstacle.setAsteroidImage(window , bird.Status , start.Start , bird.BirdSprite.getPosition().x , bird.BirdSprite.getPosition().y , love.PowerOn);
         love.setPowerImage(window , bird.Status , start.Start , bird.BirdSprite.getPosition().x , bird.BirdSprite.getPosition().y);
         bird.setBirdImage(window , start.Start , love.PowerOn);
+        anime.setAnimatedImage(window , bird.BirdSprite.getPosition().y , bird.Status , love.PowerOn);
         bird.setRestartButton(window);
         animation.setAnimation(window  , bird.BirdSprite.getPosition().y , love.PowerOn);
         score.setScoreText(window , bird.Status , start.Start);
