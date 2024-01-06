@@ -53,10 +53,11 @@ private:
     sf::RectangleShape RestartButton;
     void getThunderImage();
     void getBirdImage();
-    void setBirdGravity();
-    void setBirdJump();
+    void setBirdGravity(bool PowerOn);
+    void setBirdJump(bool PowerOn);
     void getSound();
     void getRestertButton();
+    bool NPCMode = true;
     float BirdY = 0;
     float GravityPower = 4.3  , RotationAngle = 18;
     bool TransitionDown = true , TransitionUp = false;
@@ -81,16 +82,15 @@ void Bird::setBirdImage(sf::RenderWindow &window , bool& start , bool PowerOn) {
     if(Status){
         if(KeyPressed) {
             if(!start) {
-                setBirdGravity();
-                setBirdNpcMode(BirdSprite , 5 , 4 , BirdY , BirdPosX , TransitionDown , TransitionUp , BirdPy);
-
+                setBirdGravity(PowerOn);
+                if(NPCMode)setBirdNpcMode(BirdSprite , 5 , 4 , BirdY , BirdPosX , TransitionDown , TransitionUp , BirdPy);
             }
             else{
                 setBirdNpcMode(BirdSprite , 8 , 8 , BirdY , BirdPosX , TransitionDown , TransitionUp , BirdPy);
             }
         }
         else if(KeyReleased){
-            if(!start)setBirdJump();
+            if(!start)setBirdJump(PowerOn);
         }
     }
 }
@@ -151,27 +151,33 @@ void Bird::setBirdNpcMode(sf::Sprite& ImageComponent , float MoveUp , float Move
    }
 }
 
-void Bird::setBirdGravity() {
+void Bird::setBirdGravity(bool PowerOn) {
     float CurrentBirdY = BirdSprite.getPosition().y;
-    if(CurrentBirdY < 710){
+    if(CurrentBirdY < 770){
         BirdSprite.move(0 , GravityPower);
+        NPCMode = true;
     }
     else{
-        Status = false;
-        ThunderSound.play();
+        if(!PowerOn){
+            Status = false;
+            ThunderSound.play();
+        }
+        else NPCMode = false;
     }
 }
 
-void Bird::setBirdJump() {
+void Bird::setBirdJump(bool PowerOn) {
     float CurrentBirdY = BirdSprite.getPosition().y;
-    if(CurrentBirdY > -5){
+    if(CurrentBirdY > 30){
         BirdSprite.move(0 , -GravityPower - 3);
     }
     else{
-        Status = false;
-        ThunderSound.play();
-        KeyReleased = false; KeyPressed = true;
-        BirdSprite.rotate(RotationAngle);
+       if(!PowerOn){
+           Status = false;
+           ThunderSound.play();
+           KeyReleased = false; KeyPressed = true;
+           BirdSprite.rotate(RotationAngle);
+       }
     }
 }
 

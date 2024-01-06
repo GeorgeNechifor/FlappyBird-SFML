@@ -2,11 +2,14 @@
 #include<SFML/Graphics.hpp>
 #include<SFML/System/Clock.hpp>
 #include<iostream>
+#include<SFML/Audio/Music.hpp>
 
 class Power{
 public:
     Power(){
         getPowerImage();
+        LoveSong.openFromFile(R"(C:\GamesCpp\TetrisGame\audio\love.wav)");
+        ambient.openFromFile(R"(C:\GamesCpp\TetrisGame\audio\power.wav)");
     }
     void setPowerImage(sf::RenderWindow& window , bool status , bool start , float BirdPositionX , float BirdPositionY){
         if(!PowerOn)window.draw(PowerSprite);
@@ -21,6 +24,8 @@ private:
     sf::Sprite PowerSprite;
     sf::Clock clock;
     sf::Clock LoveClock;
+    sf::Music LoveSong;
+    sf::Music ambient;
     int RandomSpeedXIndex = rand() % 3;
     int RandomSpeedYIndex = rand() % 7;
     float SpeedXValues[4] = {-4 , -6 , -7 , -5};
@@ -44,19 +49,19 @@ private:
             RandomSpeedYIndex = rand() % 5;
             clock.restart();
 
-
         }
         else{
             if(elapsed.asMilliseconds() > 22000){
-                if(std::abs(PowerY - BirdPositionY) < 60 && std::abs(PowerX - BirdPositionX) < 60){
+                if(std::abs(PowerY - BirdPositionY) < 60 && std::abs(PowerX - BirdPositionX) < 60 && !PowerOn){
                    PowerOn = true;
                    LoveClock.restart();
+                   LoveSong.play();
                 }
                 else{
                     PowerSprite.move(SpeedXValues[RandomSpeedXIndex] , SpeedYValues[RandomSpeedYIndex]);
                 }
             }
-            if(ElapsedLove.asMilliseconds() > 7000){
+            if(ElapsedLove.asMilliseconds() > 8000){
                 PowerOn = false;
             }
 

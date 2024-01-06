@@ -41,7 +41,7 @@ int main()
         love.setPowerImage(window , bird.Status , start.Start , bird.BirdSprite.getPosition().x , bird.BirdSprite.getPosition().y);
         bird.setBirdImage(window , start.Start , love.PowerOn);
         bird.setRestartButton(window);
-        animation.setAnimation(window  , bird.BirdSprite.getPosition().y);
+        animation.setAnimation(window  , bird.BirdSprite.getPosition().y , love.PowerOn);
         score.setScoreText(window , bird.Status , start.Start);
         if(start.Start){
             start.setTitle(window);
